@@ -7,15 +7,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.BoraBora.entity.User;
 import pe.BoraBora.model.ApiResponse;
+import pe.BoraBora.model.LoginResponse;
 import pe.BoraBora.request.LoginRequest;
 import pe.BoraBora.request.ResetPasswordRequest;
+import pe.BoraBora.request.UpdateUserRequest;
 import pe.BoraBora.service.UserService;
 
 @RestController
@@ -26,18 +30,19 @@ public class UserController {
     private UserService userService;
     
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         try {
             User user = userService.login(loginRequest.getEmail(), loginRequest.getContrasena());
 
             if (user != null) {
                 session.setAttribute("user", user);
-                return new ResponseEntity<>(new ApiResponse("Inicio de sesión correcto", HttpStatus.OK), HttpStatus.OK);
+                LoginResponse response = new LoginResponse("Inicio de sesión correcto", HttpStatus.OK.toString(), user.getId());
+                return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(new ApiResponse("Inicio de sesión fallido. Verifica tus credenciales", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(new LoginResponse("Inicio de sesión fallido. Verifica tus credenciales", HttpStatus.UNAUTHORIZED.toString(), null), HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(new ApiResponse("Error al intentar iniciar sesión. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new LoginResponse("Error al intentar iniciar sesión. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.toString(), null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
@@ -83,6 +88,40 @@ public class UserController {
             }
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse("Error al restablecer la contraseña. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @PutMapping("/update-user/{id}")
+    public ResponseEntity<ApiResponse> updateUser(@PathVariable Integer id, @RequestBody UpdateUserRequest request) {
+        try {
+            if (!userService.existsById(id)) {
+                return new ResponseEntity<>(new ApiResponse("El usuario no existe", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+            }
+
+            User currentUser = userService.getUserById(id);
+
+            if (userService.emailExists(request.getEmail()) && !currentUser.getEmail().equals(request.getEmail())) {
+                return new ResponseEntity<>(new ApiResponse("El correo electrónico ya está registrado. Por favor, ingrese otro", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            }
+
+            if (userService.docIdentidadExists(request.getDocIdentidad()) && !currentUser.getDocIdentidad().equals(request.getDocIdentidad())) {
+                return new ResponseEntity<>(new ApiResponse("El documento de identidad ya está registrado. Por favor, ingrese otro", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            }
+
+            if (userService.telefonoExists(request.getTelefono()) && !currentUser.getTelefono().equals(request.getTelefono())) {
+                return new ResponseEntity<>(new ApiResponse("El teléfono ya está registrado. Por favor, ingrese otro", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            }
+
+            currentUser.setNombres(request.getNombres());
+            currentUser.setApellidos(request.getApellidos());
+            currentUser.setDocIdentidad(request.getDocIdentidad());
+            currentUser.setTelefono(request.getTelefono());
+            currentUser.setEmail(request.getEmail());
+
+            userService.updateUser(currentUser);
+            return new ResponseEntity<>(new ApiResponse("Usuario actualizado con éxito", HttpStatus.OK), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse("Error al actualizar el usuario. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

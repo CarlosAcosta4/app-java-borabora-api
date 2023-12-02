@@ -19,4 +19,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	//--VERIFICAR SI EL ID DEL USUARIO EXISTE
 	boolean existsById(Integer id);
+	
+	boolean existsByDocIdentidad(Integer docIdentidad);
+
+	boolean existsByTelefono(Integer telefono);
 }

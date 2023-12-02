@@ -19,4 +19,13 @@ public interface UserService {
 	
     //--VERIFICAR SI EL ID DEL USUARIO EXISTE
     boolean existsById(Integer id);
+    
+    User getUserById(Integer id);
+    void updateUser(User user);
+    
+    //--VERIFICAR SI EL DOCUMENTO DE IDENTIDAD EXISTE
+    boolean docIdentidadExists(Integer docIdentidad);
+
+    //--VERIFICAR SI EL TELEFONO EXISTE
+    boolean telefonoExists(Integer telefono);
 }

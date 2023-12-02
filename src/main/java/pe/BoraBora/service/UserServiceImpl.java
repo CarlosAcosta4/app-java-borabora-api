@@ -64,4 +64,28 @@ public class UserServiceImpl implements UserService {
   	public boolean existsById(Integer id) {
   	    return repository.existsById(id);
   	}
+  	
+  	@Override
+    public User getUserById(Integer id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        repository.save(user);
+    }
+  	
+  	//--VERIFICAR SI EL DOCUMENTO DE IDENTIDAD EXISTE EN LA BD
+    @Override
+    @Transactional(readOnly = true)
+    public boolean docIdentidadExists(Integer docIdentidad) {
+        return repository.existsByDocIdentidad(docIdentidad);
+    }
+
+    //--VERIFICAR SI EL TELEFONO EXISTE EN LA BD
+    @Override
+    @Transactional(readOnly = true)
+    public boolean telefonoExists(Integer telefono) {
+        return repository.existsByTelefono(telefono);
+    }
 }
