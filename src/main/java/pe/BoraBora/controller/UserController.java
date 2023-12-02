@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pe.BoraBora.entity.User;
-import pe.BoraBora.model.ApiResponse;
-import pe.BoraBora.model.LoginResponse;
 import pe.BoraBora.request.LoginRequest;
-import pe.BoraBora.request.ResetPasswordRequest;
+import pe.BoraBora.request.UpdatePasswordRequest;
 import pe.BoraBora.request.UpdateUserRequest;
+import pe.BoraBora.response.ApiResponse;
+import pe.BoraBora.response.LoginResponse;
+import pe.BoraBora.response.PerfilResponse;
 import pe.BoraBora.service.UserService;
 
 @RestController
@@ -65,7 +67,7 @@ public class UserController {
     }
     
     @PostMapping("/update-password")
-    public ResponseEntity<ApiResponse> updatePassword(@RequestBody ResetPasswordRequest request) {
+    public ResponseEntity<ApiResponse> updatePassword(@RequestBody UpdatePasswordRequest request) {
         try {
             String email = request.getEmail();
             String oldPass = request.getOldPassword();
@@ -122,6 +124,26 @@ public class UserController {
             return new ResponseEntity<>(new ApiResponse("Usuario actualizado con éxito", HttpStatus.OK), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse("Error al actualizar el usuario. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<PerfilResponse> getUserById(@PathVariable Integer id) {
+        try {
+            User user = userService.getUserById(id);
+            if (user != null) {
+                PerfilResponse perfilResponse = new PerfilResponse();
+                perfilResponse.setNombres(user.getNombres());
+                perfilResponse.setApellidos(user.getApellidos());
+                perfilResponse.setDocIdentidad(user.getDocIdentidad());
+                perfilResponse.setTelefono(user.getTelefono());
+                perfilResponse.setEmail(user.getEmail());
+                return new ResponseEntity<>(perfilResponse, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

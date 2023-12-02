@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BodegaBoraBoraC2Application {
+public class AppBoraBoraBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BodegaBoraBoraC2Application.class, args);
+		SpringApplication.run(AppBoraBoraBackendApplication.class, args);
 	}
 
 }

@@ -1,4 +1,4 @@
-package pe.BoraBora.model;
+package pe.BoraBora.response;
 
 public class LoginResponse {
     private String message;

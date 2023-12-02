@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pe.BoraBora.entity.Compra;
 import pe.BoraBora.entity.User;
-import pe.BoraBora.model.ApiResponse;
 import pe.BoraBora.repository.UserRepository;
+import pe.BoraBora.response.ApiResponse;
 import pe.BoraBora.service.CompraService;
 
+/*
 @RestController
 @RequestMapping("/compras")
 public class CompraController {
@@ -89,4 +90,4 @@ public class CompraController {
             return new ResponseEntity<>(new ApiResponse("Compra no encontrada", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
     }
-}
+}*/
