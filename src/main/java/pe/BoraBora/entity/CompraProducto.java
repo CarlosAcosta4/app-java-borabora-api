@@ -31,10 +31,14 @@ public class CompraProducto implements Serializable {
 
     @Column
     private int cantidad;
+    
+	public CompraProducto() {
+	}
 
-	public CompraProducto(Integer id, int cantidad) {
-		super();
+	public CompraProducto(Integer id, Compra compra, Producto producto, int cantidad) {
 		this.id = id;
+		this.compra = compra;
+		this.producto = producto;
 		this.cantidad = cantidad;
 	}
 
@@ -44,6 +48,22 @@ public class CompraProducto implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Compra getCompra() {
+		return compra;
+	}
+
+	public void setCompra(Compra compra) {
+		this.compra = compra;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 	public int getCantidad() {

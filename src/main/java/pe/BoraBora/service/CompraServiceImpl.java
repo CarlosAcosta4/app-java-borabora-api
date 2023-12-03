@@ -1,6 +1,7 @@
 package pe.BoraBora.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +49,11 @@ public class CompraServiceImpl implements CompraService{
 	public Collection<Compra> findAll() {
 		return repository.findAll();
 	}
+	
+	@Override 
+    @Transactional(readOnly=true)
+    public List<Compra> findComprasByUserId(Integer userId) {
+        return repository.findComprasByUserId(userId);
+    }
 }
 

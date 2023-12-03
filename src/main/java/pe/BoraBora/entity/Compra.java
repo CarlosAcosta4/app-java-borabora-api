@@ -1,8 +1,10 @@
 package pe.BoraBora.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "compras")
@@ -35,24 +40,30 @@ public class Compra implements Serializable {
 
     @Column
     private String metodopago;
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd",iso=ISO.DATE)
+	private LocalDate fcompra;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "compra")
-    private Collection<CompraProducto> compraProductos = new ArrayList<>();
+    private List<CompraProducto> compraProductos = new ArrayList<>();
 
 	public Compra() {
 	}
 	
-	public Compra(Integer id, Double total, Double igv, Double subtotal, String metodopago) {
-		super();
+	public Compra(Integer id, Double total, Double igv, Double subtotal, String metodopago, LocalDate fcompra,
+			User user, List<CompraProducto> compraProductos) {
 		this.id = id;
 		this.total = total;
 		this.igv = igv;
 		this.subtotal = subtotal;
 		this.metodopago = metodopago;
+		this.fcompra = fcompra;
+		this.user = user;
+		this.compraProductos = compraProductos;
 	}
 
 	public Integer getId() {
@@ -91,17 +102,33 @@ public class Compra implements Serializable {
 		return metodopago;
 	}
 
-	public void setMetodoPago(String metodopago) {
+	public void setMetodopago(String metodopago) {
 		this.metodopago = metodopago;
 	}
-	
-	public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public LocalDate getFcompra() {
+		return fcompra;
+	}
+
+	public void setFcompra(LocalDate fcompra) {
+		this.fcompra = fcompra;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<CompraProducto> getCompraProductos() {
+		return compraProductos;
+	}
+
+	public void setCompraProductos(List<CompraProducto> compraProductos) {
+		this.compraProductos = compraProductos;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

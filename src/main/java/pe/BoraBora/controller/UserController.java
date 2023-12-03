@@ -30,6 +30,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     
+    //--LOGIN
     @PostMapping("/login")
     public ResponseEntity<PerfilResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         try {
@@ -37,18 +38,19 @@ public class UserController {
 
             if (user != null) {
                 session.setAttribute("user", user);
-                PerfilResponse response = new PerfilResponse(user.getId(), user.getNombres(), user.getApellidos(), user.getDocIdentidad(), user.getTelefono(), user.getEmail(), "Inicio de sesión correcto", HttpStatus.OK);
+                PerfilResponse response = new PerfilResponse("Inicio de sesión correcto", HttpStatus.OK, user.getId(), user.getNombres(), user.getApellidos(), user.getDocIdentidad(), user.getTelefono(), user.getEmail());
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                PerfilResponse response = new PerfilResponse(null, null, null, null, null, null, "Inicio de sesión fallido. Verifica tus credenciales", HttpStatus.UNAUTHORIZED);
+                PerfilResponse response = new PerfilResponse( "Inicio de sesión fallido. Verifica tus credenciales", HttpStatus.UNAUTHORIZED, null, null, null, null, null, null);
                 return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
-            PerfilResponse response = new PerfilResponse(null, null, null, null, null, null, "Error al intentar iniciar sesión. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            PerfilResponse response = new PerfilResponse( "Error al intentar iniciar sesión. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null, null, null, null, null, null);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
+    //--REGISTRAR UN USUARIO
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> createUser(@RequestBody User user) {
         try {
@@ -75,6 +77,7 @@ public class UserController {
         }
     }
     
+    //--ACTUALIZAR PASSWORD DEL USUARIO
     @PostMapping("/update-password")
     public ResponseEntity<ApiResponse> updatePassword(@RequestBody UpdatePasswordRequest request) {
         try {
@@ -102,6 +105,7 @@ public class UserController {
         }
     }
     
+    //ACTUALIZAR DATOS DEL USUARIO
     @PutMapping("/update-user/{id}")
     public ResponseEntity<ApiResponse> updateUser(@PathVariable Integer id, @RequestBody UpdateUserRequest request) {
         try {
@@ -136,7 +140,8 @@ public class UserController {
         }
     }
     
-    //--No se usa
+    //--ESTE CONTROLADOR NO SE ESTA USANDO
+    //--BUSQUEDA DE USUARIO POR ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         try {

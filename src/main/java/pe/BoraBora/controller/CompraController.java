@@ -1,6 +1,8 @@
 package pe.BoraBora.controller;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,9 +22,11 @@ import pe.BoraBora.entity.Compra;
 import pe.BoraBora.entity.User;
 import pe.BoraBora.repository.UserRepository;
 import pe.BoraBora.response.ApiResponse;
+import pe.BoraBora.response.CompraProductoResponse;
+import pe.BoraBora.response.CompraResponse;
 import pe.BoraBora.service.CompraService;
 
-/*
+
 @RestController
 @RequestMapping("/compras")
 public class CompraController {
@@ -33,6 +37,7 @@ public class CompraController {
     @Autowired
     private UserRepository userRepository;
 
+    //--REGISTRAR UNA COMPRA
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> insert(@RequestBody Compra compra, HttpSession session) {
         try {
@@ -48,17 +53,39 @@ public class CompraController {
             return new ResponseEntity<>(new ApiResponse("Error al insertar la compra. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> findById(@PathVariable Integer id) {
-        Compra compra = compraService.findById(id);
-        if (compra != null) {
-            return new ResponseEntity<>(new ApiResponse("Compra encontrada", HttpStatus.OK, compra), HttpStatus.OK);
+    
+    //--BUSQUEDAD DE LA COMPRA DE UN USUARIO POR SU ID
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<CompraResponse>> findByUserId(@PathVariable Integer userId) {
+        List<Compra> compras = compraService.findComprasByUserId(userId);
+        if (!compras.isEmpty()) {
+            // Convertir la lista de Compra a CompraResponse
+            List<CompraResponse> compraResponses = compras.stream()
+                .map(compra -> {
+                    CompraResponse compraResponse = new CompraResponse();
+                    compraResponse.setMessage("Compra encontrada");
+                    compraResponse.setStatus(HttpStatus.OK);
+                    compraResponse.setId(compra.getId());
+                    compraResponse.setTotal(compra.getTotal());
+                    compraResponse.setIgv(compra.getIgv());
+                    compraResponse.setSubtotal(compra.getSubtotal());
+                    compraResponse.setMetodopago(compra.getMetodopago());
+                    compraResponse.setFcompra(compra.getFcompra());
+                    compraResponse.setUserId(compra.getUser().getId());
+                    return compraResponse;
+                })
+                .collect(Collectors.toList());
+            return new ResponseEntity<>(compraResponses, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new ApiResponse("Compra no encontrada", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+            CompraResponse compraResponse = new CompraResponse();
+            compraResponse.setMessage("No se encontraron compras para el usuario");
+            compraResponse.setStatus(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(List.of(compraResponse), HttpStatus.NOT_FOUND);
         }
     }
 
+    
+    /*
     @GetMapping()
     public ResponseEntity<ApiResponse> findAll() {
         Collection<Compra> compras = compraService.findAll();
@@ -89,5 +116,5 @@ public class CompraController {
         } else {
             return new ResponseEntity<>(new ApiResponse("Compra no encontrada", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
-    }
-}*/
+    }*/
+}

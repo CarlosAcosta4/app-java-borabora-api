@@ -4,28 +4,46 @@ import org.springframework.http.HttpStatus;
 
 public class PerfilResponse {
 	
+	private String message;
+    private HttpStatus status;
+    
 	private Integer userId;
 	private String nombres;
 	private String apellidos;
 	private Integer docIdentidad;
 	private Integer telefono;
 	private String email;
-	private String message;
-    private HttpStatus status;
+	
 	
 	public PerfilResponse() {
 	}
 
-	public PerfilResponse(Integer userId, String nombres, String apellidos, Integer docIdentidad, Integer telefono,
-			String email, String message, HttpStatus status) {
+	public PerfilResponse(String message, HttpStatus status, Integer userId, String nombres, String apellidos,
+			Integer docIdentidad, Integer telefono, String email) {
 		super();
+		this.message = message;
+		this.status = status;
 		this.userId = userId;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.docIdentidad = docIdentidad;
 		this.telefono = telefono;
 		this.email = email;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public HttpStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
 
@@ -75,21 +93,5 @@ public class PerfilResponse {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public HttpStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(HttpStatus status) {
-		this.status = status;
 	}
 }
