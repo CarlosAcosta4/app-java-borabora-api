@@ -20,7 +20,6 @@ import pe.BoraBora.request.LoginRequest;
 import pe.BoraBora.request.UpdatePasswordRequest;
 import pe.BoraBora.request.UpdateUserRequest;
 import pe.BoraBora.response.ApiResponse;
-import pe.BoraBora.response.LoginResponse;
 import pe.BoraBora.response.PerfilResponse;
 import pe.BoraBora.service.UserService;
 
@@ -32,19 +31,21 @@ public class UserController {
     private UserService userService;
     
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<PerfilResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         try {
             User user = userService.login(loginRequest.getEmail(), loginRequest.getContrasena());
 
             if (user != null) {
                 session.setAttribute("user", user);
-                LoginResponse response = new LoginResponse("Inicio de sesión correcto", HttpStatus.OK.toString(), user.getId());
+                PerfilResponse response = new PerfilResponse(user.getId(), user.getNombres(), user.getApellidos(), user.getDocIdentidad(), user.getTelefono(), user.getEmail(), "Inicio de sesión correcto", HttpStatus.OK);
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(new LoginResponse("Inicio de sesión fallido. Verifica tus credenciales", HttpStatus.UNAUTHORIZED.toString(), null), HttpStatus.UNAUTHORIZED);
+                PerfilResponse response = new PerfilResponse(null, null, null, null, null, null, "Inicio de sesión fallido. Verifica tus credenciales", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(new LoginResponse("Error al intentar iniciar sesión. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.toString(), null), HttpStatus.INTERNAL_SERVER_ERROR);
+            PerfilResponse response = new PerfilResponse(null, null, null, null, null, null, "Error al intentar iniciar sesión. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
@@ -57,6 +58,14 @@ public class UserController {
 
             if (userService.emailExists(user.getEmail())) {
                 return new ResponseEntity<>(new ApiResponse("El correo electrónico ya está registrado. Por favor, ingrese otro", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            }
+            
+            if (userService.docIdentidadExists(user.getDocIdentidad())) {
+                return new ResponseEntity<>(new ApiResponse("El documento de identidad ya está registrado. Por favor, ingrese otro", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            }
+
+            if (userService.telefonoExists(user.getTelefono())) {
+                return new ResponseEntity<>(new ApiResponse("El teléfono ya está registrado. Por favor, ingrese otro", HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
             }
 
             userService.insert(user);
@@ -127,8 +136,9 @@ public class UserController {
         }
     }
     
+    //--No se usa
     @GetMapping("/{id}")
-    public ResponseEntity<PerfilResponse> getUserById(@PathVariable Integer id) {
+    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
         try {
             User user = userService.getUserById(id);
             if (user != null) {
@@ -140,10 +150,12 @@ public class UserController {
                 perfilResponse.setEmail(user.getEmail());
                 return new ResponseEntity<>(perfilResponse, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                ApiResponse apiResponse = new ApiResponse("Usuario no encontrado", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            ApiResponse apiResponse = new ApiResponse("Error interno del servidor", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
