@@ -148,19 +148,26 @@ public class UserController {
             User user = userService.getUserById(id);
             if (user != null) {
                 PerfilResponse perfilResponse = new PerfilResponse();
+                perfilResponse.setUserId(user.getId());
                 perfilResponse.setNombres(user.getNombres());
                 perfilResponse.setApellidos(user.getApellidos());
                 perfilResponse.setDocIdentidad(user.getDocIdentidad());
                 perfilResponse.setTelefono(user.getTelefono());
                 perfilResponse.setEmail(user.getEmail());
+                perfilResponse.setMessage("Usuario encontrado");
+                perfilResponse.setStatus(HttpStatus.OK);
                 return new ResponseEntity<>(perfilResponse, HttpStatus.OK);
             } else {
-                ApiResponse apiResponse = new ApiResponse("Usuario no encontrado", HttpStatus.NOT_FOUND);
-                return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+                PerfilResponse perfilResponse = new PerfilResponse();
+                perfilResponse.setMessage("Usuario no encontrado");
+                perfilResponse.setStatus(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(perfilResponse, HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            ApiResponse apiResponse = new ApiResponse("Error interno del servidor", HttpStatus.INTERNAL_SERVER_ERROR);
-            return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+            PerfilResponse perfilResponse = new PerfilResponse();
+            perfilResponse.setMessage("Error interno del servidor");
+            perfilResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(perfilResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
