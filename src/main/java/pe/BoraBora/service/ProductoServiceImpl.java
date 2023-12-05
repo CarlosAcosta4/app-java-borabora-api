@@ -1,6 +1,7 @@
 package pe.BoraBora.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,4 +48,9 @@ public class ProductoServiceImpl implements ProductoService{
 	public Collection<Producto> findAll() {
 		return repository.findAll();
 	}
+	
+	@Override
+    public List<Producto> findProductosByCategoriaId(Integer categoriaId) {
+        return repository.findByCategoriaId(categoriaId);
+    }
 }

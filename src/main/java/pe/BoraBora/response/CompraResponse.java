@@ -1,11 +1,9 @@
 package pe.BoraBora.response;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import pe.BoraBora.entity.CompraProducto;
 
 public class CompraResponse {
 	
