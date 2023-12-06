@@ -9,16 +9,17 @@ public class CategoriaResponse {
 	
 	private Integer id;
 	private String nombre;
+	private String imagen;
 	
 	public CategoriaResponse() {
 	}
 
-	public CategoriaResponse(String message, HttpStatus status, Integer id, String nombre) {
-		super();
+	public CategoriaResponse(String message, HttpStatus status, Integer id, String nombre, String imagen) {
 		this.message = message;
 		this.status = status;
 		this.id = id;
 		this.nombre = nombre;
+		this.imagen = imagen;
 	}
 
 	public String getMessage() {
@@ -51,5 +52,13 @@ public class CategoriaResponse {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 }

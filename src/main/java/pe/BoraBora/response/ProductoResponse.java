@@ -15,6 +15,7 @@ public class ProductoResponse {
 	private Double precio;
 	private Integer stock;
 	private LocalDate fvencimiento;
+	private String imagen;
 	
 	private Integer categoriaId;
 	private String categoriaNombre;
@@ -23,8 +24,9 @@ public class ProductoResponse {
 	}
 
 	public ProductoResponse(String message, HttpStatus status, Integer id, String nombre, String descripcion,
-			String marca, Double precio, Integer stock, LocalDate fvencimiento, Integer categoriaId,
+			String marca, Double precio, Integer stock, LocalDate fvencimiento, String imagen, Integer categoriaId,
 			String categoriaNombre) {
+		super();
 		this.message = message;
 		this.status = status;
 		this.id = id;
@@ -34,6 +36,7 @@ public class ProductoResponse {
 		this.precio = precio;
 		this.stock = stock;
 		this.fvencimiento = fvencimiento;
+		this.imagen = imagen;
 		this.categoriaId = categoriaId;
 		this.categoriaNombre = categoriaNombre;
 	}
@@ -108,6 +111,14 @@ public class ProductoResponse {
 
 	public void setFvencimiento(LocalDate fvencimiento) {
 		this.fvencimiento = fvencimiento;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	public Integer getCategoriaId() {

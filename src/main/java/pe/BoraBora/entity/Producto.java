@@ -44,6 +44,9 @@ public class Producto implements Serializable
 	@DateTimeFormat(pattern="yyyy-MM-dd",iso=ISO.DATE)
 	private LocalDate fvencimiento;
 	
+	@Column
+	private String imagen;
+	
 	@ManyToOne 
 	@JoinColumn(name="categoria_id",nullable=false)
 	private Categoria categoria;	
@@ -51,10 +54,10 @@ public class Producto implements Serializable
 	@OneToMany(mappedBy = "producto")
 	private Collection<ProductoCarrito> carritoProductos = new ArrayList<>();
 	
-	public Producto() { }	
+	public Producto() { }
 
 	public Producto(Integer id, String nombre, String descripcion, String marca, Double precio, Integer stock,
-			LocalDate fvencimiento, Categoria categoria, Collection<ProductoCarrito> carritoProductos) {
+			LocalDate fvencimiento, String imagen, Categoria categoria, Collection<ProductoCarrito> carritoProductos) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -63,6 +66,7 @@ public class Producto implements Serializable
 		this.precio = precio;
 		this.stock = stock;
 		this.fvencimiento = fvencimiento;
+		this.imagen = imagen;
 		this.categoria = categoria;
 		this.carritoProductos = carritoProductos;
 	}
@@ -123,6 +127,14 @@ public class Producto implements Serializable
 		this.fvencimiento = fvencimiento;
 	}
 
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -130,6 +142,7 @@ public class Producto implements Serializable
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
 	public Collection<ProductoCarrito> getCarritoProductos() {
 		return carritoProductos;
 	}

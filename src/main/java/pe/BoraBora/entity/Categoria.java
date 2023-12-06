@@ -26,16 +26,20 @@ public class Categoria implements Serializable
 	@Column
 	private String nombre;
 
+	@Column
+	private String imagen;
+	
 	@OneToMany(mappedBy="categoria")
 	private Collection<Producto> productos=new ArrayList<>();
 	
 	public Categoria() {		
 	}
 
-	public Categoria(Integer id, String nombre) {
-		super();
+	public Categoria(Integer id, String nombre, String imagen, Collection<Producto> productos) {
 		this.id = id;
 		this.nombre = nombre;
+		this.imagen = imagen;
+		this.productos = productos;
 	}
 
 	public Integer getId() {
@@ -52,6 +56,14 @@ public class Categoria implements Serializable
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 	public Collection<Producto> getProductos() {

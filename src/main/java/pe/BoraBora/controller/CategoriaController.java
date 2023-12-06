@@ -28,6 +28,7 @@ public class CategoriaController {
                 categoriaResponse.setStatus(HttpStatus.OK);
                 categoriaResponse.setId(categoria.getId());
                 categoriaResponse.setNombre(categoria.getNombre());
+                categoriaResponse.setImagen(categoria.getImagen());
                 return categoriaResponse;
             })
             .collect(Collectors.toList());

@@ -37,6 +37,7 @@ public class ProductoController {
                 productoResponse.setPrecio(producto.getPrecio());
                 productoResponse.setStock(producto.getStock());
                 productoResponse.setFvencimiento(producto.getFvencimiento());
+                productoResponse.setImagen(producto.getImagen());
                 productoResponse.setCategoriaId(producto.getCategoria().getId());
                 productoResponse.setCategoriaNombre(producto.getCategoria().getNombre());
                 return productoResponse;
@@ -61,6 +62,7 @@ public class ProductoController {
                     productoResponse.setPrecio(producto.getPrecio());
                     productoResponse.setStock(producto.getStock());
                     productoResponse.setFvencimiento(producto.getFvencimiento());
+                    productoResponse.setImagen(producto.getImagen());
                     productoResponse.setCategoriaId(producto.getCategoria().getId());
                     productoResponse.setCategoriaNombre(producto.getCategoria().getNombre());
                     return productoResponse;
