@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name="categorias")
@@ -30,6 +32,7 @@ public class Categoria implements Serializable
 	private String imagen;
 	
 	@OneToMany(mappedBy="categoria")
+	@JsonManagedReference  //-----
 	private Collection<Producto> productos=new ArrayList<>();
 	
 	public Categoria() {		

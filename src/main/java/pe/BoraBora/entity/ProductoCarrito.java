@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity 
 @Table(name = "productos_carrito")
 public class ProductoCarrito implements Serializable{
@@ -22,10 +24,12 @@ public class ProductoCarrito implements Serializable{
 
     @ManyToOne 
     @JoinColumn(name = "carrito_id", nullable = false)
+    @JsonBackReference  //-----
     private Carrito carrito;
 
     @ManyToOne 
     @JoinColumn(name = "producto_id", nullable = false)
+    @JsonBackReference  //-----
     private Producto producto;
 
     @Column

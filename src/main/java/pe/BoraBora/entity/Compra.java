@@ -18,6 +18,9 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "compras")
 public class Compra implements Serializable {
@@ -45,9 +48,11 @@ public class Compra implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
+    @JsonBackReference  //-----
     private User user;
 
     @OneToMany(mappedBy = "compra")
+    @JsonManagedReference  //-----
     private List<CompraProducto> compraProductos = new ArrayList<>();
 
 	public Compra() {

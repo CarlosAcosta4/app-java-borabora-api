@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="productos")
 public class Producto implements Serializable
@@ -49,9 +52,11 @@ public class Producto implements Serializable
 	
 	@ManyToOne 
 	@JoinColumn(name="categoria_id",nullable=false)
+	@JsonBackReference  //-----
 	private Categoria categoria;	
 
 	@OneToMany(mappedBy = "producto")
+	@JsonManagedReference  //-----
 	private Collection<ProductoCarrito> carritoProductos = new ArrayList<>();
 	
 	public Producto() { }

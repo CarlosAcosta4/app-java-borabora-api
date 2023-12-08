@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pe.BoraBora.entity.Compra;
 import pe.BoraBora.entity.User;
 import pe.BoraBora.repository.UserRepository;
+import pe.BoraBora.request.CompraRequest;
 import pe.BoraBora.response.ApiResponse;
 import pe.BoraBora.response.CompraResponse;
 import pe.BoraBora.service.CompraService;
@@ -65,10 +66,16 @@ public class CompraController {
 
     //--REGISTRAR UNA COMPRA
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> insert(@RequestBody Compra compra, HttpSession session) {
+    public ResponseEntity<ApiResponse> insert(@RequestBody CompraRequest compraRequest, HttpSession session) {
         try {
             User user = (User) session.getAttribute("user");
             if (user != null && userRepository.existsById(user.getId())) {
+            	Compra compra = new Compra();
+            	compra.setTotal(compraRequest.getTotal());
+            	compra.setIgv(compraRequest.getIgv());
+            	compra.setSubtotal(compraRequest.getSubtotal());
+            	compra.setMetodopago(compraRequest.getMetodopago());
+            	compra.setFcompra(compraRequest.getFcompra());
                 compra.setUser(user);
                 compraService.insert(compra);
                 return new ResponseEntity<>(new ApiResponse("Compra insertada con éxito", HttpStatus.CREATED), HttpStatus.CREATED);
@@ -79,38 +86,6 @@ public class CompraController {
             return new ResponseEntity<>(new ApiResponse("Error al insertar la compra. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     
-    /*
-    @GetMapping()
-    public ResponseEntity<ApiResponse> findAll() {
-        Collection<Compra> compras = compraService.findAll();
-        return new ResponseEntity<>(new ApiResponse("Lista de compras obtenida con éxito", HttpStatus.OK, compras), HttpStatus.OK);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> update(@PathVariable Integer id, @RequestBody Compra compra,HttpSession session) {
-    	try {
-            User user = (User) session.getAttribute("user");
-	        if (compraService.findById(id) != null) {
-	        	compra.setUser(user);
-	            compraService.update(compra);
-	            return new ResponseEntity<>(new ApiResponse("Compra actualizada con éxito", HttpStatus.OK, compra), HttpStatus.OK);
-	        } else {
-	            return new ResponseEntity<>(new ApiResponse("Compra no encontrada", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
-	        }
-        } catch (Exception e) {
-            return new ResponseEntity<>(new ApiResponse("Error al actualizar la compra. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
-        }  
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> delete(@PathVariable Integer id) {
-        if (compraService.findById(id) != null) {
-            compraService.delete(id);
-            return new ResponseEntity<>(new ApiResponse("Compra eliminada con éxito", HttpStatus.OK), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(new ApiResponse("Compra no encontrada", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
-        }
-    }*/
+    
 }
