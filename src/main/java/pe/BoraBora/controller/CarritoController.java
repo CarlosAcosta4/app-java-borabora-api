@@ -23,6 +23,7 @@ public class CarritoController {
     @Autowired
     private CarritoRepository carritoRepository;
 
+    //-- LISTAR PRODUCTOS POR USER ID
     @GetMapping("/productos/{userId}")
     public ResponseEntity<List<ProductoCarritoResponse>> getCarritoProductos(@PathVariable Integer userId) {
         Carrito carrito = carritoRepository.findByUserId(userId);
