@@ -52,18 +52,17 @@ public class Producto implements Serializable
 	
 	@ManyToOne 
 	@JoinColumn(name="categoria_id",nullable=false)
-	@JsonBackReference  //-----
+	@JsonBackReference("productos-categorias")  
 	private Categoria categoria;	
 
 	@OneToMany(mappedBy = "producto")
-	@JsonManagedReference  //-----
+	@JsonManagedReference("productos-prodCarrito")  
 	private Collection<ProductoCarrito> carritoProductos = new ArrayList<>();
 	
 	public Producto() { }
 
 	public Producto(Integer id, String nombre, String descripcion, String marca, Double precio, Integer stock,
 			LocalDate fvencimiento, String imagen, Categoria categoria, Collection<ProductoCarrito> carritoProductos) {
-		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;

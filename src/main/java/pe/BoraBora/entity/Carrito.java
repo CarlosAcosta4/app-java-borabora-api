@@ -29,7 +29,7 @@ public class Carrito implements Serializable{
 	private User user;
 
 	@OneToMany(mappedBy = "carrito")
-	@JsonManagedReference  //-----
+	@JsonManagedReference("carrito-prodCarrito") 
 	private Collection<ProductoCarrito> carritoProductos = new ArrayList<>();
 	
 	

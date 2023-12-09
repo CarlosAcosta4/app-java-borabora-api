@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class ProductoCarritoResponse {
 	
 	private String message;
-    private HttpStatus status;
+    private HttpStatus status; 
     private Integer idCarrito;
     private Integer cantidad;
     private Integer userId;

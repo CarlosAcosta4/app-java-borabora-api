@@ -48,11 +48,10 @@ public class Compra implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
-    @JsonBackReference  //-----
     private User user;
 
     @OneToMany(mappedBy = "compra")
-    @JsonManagedReference  //-----
+    @JsonManagedReference("compras-comprasProductos") 
     private List<CompraProducto> compraProductos = new ArrayList<>();
 
 	public Compra() {

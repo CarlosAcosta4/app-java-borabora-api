@@ -24,12 +24,12 @@ public class ProductoCarrito implements Serializable{
 
     @ManyToOne 
     @JoinColumn(name = "carrito_id", nullable = false)
-    @JsonBackReference  //-----
+    @JsonBackReference("carrito-prodCarrito")
     private Carrito carrito;
 
     @ManyToOne 
     @JoinColumn(name = "producto_id", nullable = false)
-    @JsonBackReference  //-----
+    @JsonBackReference("productos-prodCarrito")  
     private Producto producto;
 
     @Column

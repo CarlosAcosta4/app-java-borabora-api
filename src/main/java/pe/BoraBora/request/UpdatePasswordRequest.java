@@ -1,6 +1,7 @@
 package pe.BoraBora.request;
 
 public class UpdatePasswordRequest {
+	
     private String email;
     private String oldPassword;
     private String newPassword;

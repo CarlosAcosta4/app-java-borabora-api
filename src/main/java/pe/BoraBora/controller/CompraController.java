@@ -34,7 +34,7 @@ public class CompraController {
     @Autowired
     private UserRepository userRepository;
     
-  //--BUSQUEDAD DE LA COMPRA DE UN USUARIO POR SU ID
+    //--BUSQUEDAD DE LA COMPRA DE UN USUARIO POR SU ID
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<CompraResponse>> findByUserId(@PathVariable Integer userId) {
         List<Compra> compras = compraService.findComprasByUserId(userId);
@@ -85,7 +85,5 @@ public class CompraController {
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse("Error al insertar la compra. Detalles: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-    
-    
+    } 
 }

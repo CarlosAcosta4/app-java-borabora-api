@@ -21,6 +21,7 @@ public class DashboardController {
         this.productoRepository = productoRepository;
     }
     
+    //-- OBTENER LAS LISTA DE LOS 6 PRODUCTOS MAS VENDIDOS
     @GetMapping("/topProductos")
     public List<TopProductosResponse> findTopProductos() {
         Pageable topSix = PageRequest.of(0, 6);

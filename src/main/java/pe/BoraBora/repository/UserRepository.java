@@ -20,7 +20,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	//--VERIFICAR SI EL ID DEL USUARIO EXISTE
 	boolean existsById(Integer id);
 	
+	//--VERFICAR SI EL DOCUMENTO DE IDENTIDAD EXISTE EN LA BD
 	boolean existsByDocIdentidad(Integer docIdentidad);
 
+	//VERIFICAR SI EL TELEFONO EXISTE EN LA BD
 	boolean existsByTelefono(Integer telefono);
 }

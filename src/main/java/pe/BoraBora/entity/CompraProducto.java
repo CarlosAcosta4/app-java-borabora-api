@@ -25,12 +25,11 @@ public class CompraProducto implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "compra_id", nullable = false)
-    @JsonBackReference  //-----
+    @JsonBackReference("compras-comprasProductos")  
     private Compra compra;
 
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
-    @JsonBackReference  //-----
     private Producto producto;
 
     @Column

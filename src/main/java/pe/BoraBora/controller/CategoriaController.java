@@ -19,6 +19,7 @@ public class CategoriaController {
     @Autowired
     private CategoriaService categoriaService;
     
+    //-- LISTAR TODAS LAS CATEGORIAS
     @GetMapping("/listar")
     public List<CategoriaResponse> getAllCategorias() {
         return categoriaService.findAll().stream()

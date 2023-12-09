@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.springframework.http.HttpStatus;
 
-
 public class CompraResponse {
 	
 	private String message;

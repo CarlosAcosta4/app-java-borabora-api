@@ -1,6 +1,7 @@
 package pe.BoraBora.request;
 
 public class UpdateUserRequest {
+	
     private String nombres;
     private String apellidos;
     private Integer docIdentidad;

@@ -1,6 +1,7 @@
 package pe.BoraBora.response;
 
 public class CompraProductoResponse {
+	
     private Integer id;
     private Integer compraId;
     private Integer productoId;

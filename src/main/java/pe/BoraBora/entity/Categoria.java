@@ -32,7 +32,7 @@ public class Categoria implements Serializable
 	private String imagen;
 	
 	@OneToMany(mappedBy="categoria")
-	@JsonManagedReference  //-----
+	@JsonManagedReference("productos-categorias")
 	private Collection<Producto> productos=new ArrayList<>();
 	
 	public Categoria() {		
