@@ -1,6 +1,9 @@
 package pe.BoraBora.request;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import pe.BoraBora.entity.CompraProducto;
 
 
 public class CompraRequest {
@@ -16,9 +19,11 @@ public class CompraRequest {
 	private LocalDate fcompra;
 	
 	private Integer userId;
+	
+	private List<CompraProducto> productos;
 
 	public CompraRequest(Double total, Double igv, Double subtotal, String metodopago, LocalDate fcompra,
-			Integer userId) {
+			Integer userId, List<CompraProducto> productos) {
 		super();
 		this.total = total;
 		this.igv = igv;
@@ -26,6 +31,7 @@ public class CompraRequest {
 		this.metodopago = metodopago;
 		this.fcompra = fcompra;
 		this.userId = userId;
+		this.productos = productos;
 	}
 
 	public Double getTotal() {
@@ -74,5 +80,13 @@ public class CompraRequest {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public List<CompraProducto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<CompraProducto> productos) {
+		this.productos = productos;
 	}
 }

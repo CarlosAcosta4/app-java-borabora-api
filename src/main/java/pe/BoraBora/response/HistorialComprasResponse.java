@@ -4,23 +4,24 @@ import java.time.LocalDate;
 
 import org.springframework.http.HttpStatus;
 
-public class CompraResponse {
+public class HistorialComprasResponse {
 	
 	private String message;
     private HttpStatus status;
     
     private Integer userId;
     private Integer id;
+    
     private Double total;
     private Double igv;
     private Double subtotal;
     private String metodopago;
     private LocalDate fcompra;
     
-	public CompraResponse() {
+	public HistorialComprasResponse() {
 	}
 
-	public CompraResponse(String message, HttpStatus status, Integer userId, Integer id, Double total, Double igv,
+	public HistorialComprasResponse(String message, HttpStatus status, Integer userId, Integer id, Double total, Double igv,
 			Double subtotal, String metodopago, LocalDate fcompra) {
 		this.message = message;
 		this.status = status;

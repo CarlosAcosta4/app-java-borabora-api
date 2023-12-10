@@ -76,7 +76,7 @@ public class CarritoController {
                 .map(productoCarrito -> {
                     Producto producto = productoCarrito.getProducto();
                     ProductoCarritoResponse response = new ProductoCarritoResponse();
-                    response.setMessage("Producto encontrado");
+                    response.setMessage("Lista de productos obtenida");
                     response.setStatus(HttpStatus.OK);
                     response.setIdCarrito(carrito.getId());
                     response.setCantidad(productoCarrito.getCantidad());

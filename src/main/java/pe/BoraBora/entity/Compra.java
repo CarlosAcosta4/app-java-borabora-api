@@ -3,7 +3,7 @@ package pe.BoraBora.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -52,13 +51,13 @@ public class Compra implements Serializable {
 
     @OneToMany(mappedBy = "compra")
     @JsonManagedReference("compras-comprasProductos") 
-    private List<CompraProducto> compraProductos = new ArrayList<>();
+    private Collection<CompraProducto> compraProductos = new ArrayList<>();
 
 	public Compra() {
 	}
 	
 	public Compra(Integer id, Double total, Double igv, Double subtotal, String metodopago, LocalDate fcompra,
-			User user, List<CompraProducto> compraProductos) {
+			User user, Collection<CompraProducto> compraProductos) {
 		this.id = id;
 		this.total = total;
 		this.igv = igv;
@@ -69,6 +68,16 @@ public class Compra implements Serializable {
 		this.compraProductos = compraProductos;
 	}
 
+	 public Compra(Double total, Double igv, Double subtotal, String metodopago, LocalDate fcompra, User user, Collection<CompraProducto> compraProductos) {
+	        this.total = total;
+	        this.igv = igv;
+	        this.subtotal = subtotal;
+	        this.metodopago = metodopago;
+	        this.fcompra = fcompra;
+	        this.user = user;
+	        this.compraProductos = compraProductos;
+	    }
+	 
 	public Integer getId() {
 		return id;
 	}
@@ -123,13 +132,13 @@ public class Compra implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
+	}	
 
-	public List<CompraProducto> getCompraProductos() {
+	public Collection<CompraProducto> getCompraProductos() {
 		return compraProductos;
 	}
 
-	public void setCompraProductos(List<CompraProducto> compraProductos) {
+	public void setCompraProductos(Collection<CompraProducto> compraProductos) {
 		this.compraProductos = compraProductos;
 	}
 
