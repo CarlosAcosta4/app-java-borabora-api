@@ -76,4 +76,30 @@ public class ProductoController {
             return new ResponseEntity<>(List.of(productoResponse), HttpStatus.NOT_FOUND);
         }
     }
+    
+    @GetMapping("/buscarproducto/{id}")
+    public ResponseEntity<ProductoResponse> getProductoById(@PathVariable Integer id) {
+        Producto producto = productoService.findById(id);
+        if (producto != null) {
+            ProductoResponse productoResponse = new ProductoResponse();
+            productoResponse.setMessage("Producto encontrado");
+            productoResponse.setStatus(HttpStatus.OK);
+            productoResponse.setId(producto.getId());
+            productoResponse.setNombre(producto.getNombre());
+            productoResponse.setDescripcion(producto.getDescripcion());
+            productoResponse.setMarca(producto.getMarca());
+            productoResponse.setPrecio(producto.getPrecio());
+            productoResponse.setStock(producto.getStock());
+            productoResponse.setFvencimiento(producto.getFvencimiento());
+            productoResponse.setImagen(producto.getImagen());
+            productoResponse.setCategoriaId(producto.getCategoria().getId());
+            productoResponse.setCategoriaNombre(producto.getCategoria().getNombre());
+            return new ResponseEntity<>(productoResponse, HttpStatus.OK);
+        } else {
+            ProductoResponse productoResponse = new ProductoResponse();
+            productoResponse.setMessage("Producto no encontrado");
+            productoResponse.setStatus(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(productoResponse, HttpStatus.NOT_FOUND);
+        }
+    }
 }
