@@ -92,15 +92,16 @@ public class CompraServiceImpl implements CompraService{
 	            throw new ProductoNotFoundException(producto.getProducto().getId()); // Lanza la excepción cuando el producto no se encuentra
 	        }
 	    }
-        double igv = subtotal * 0.18;
-        double total = subtotal + igv;
-        Compra compra = new Compra(total, igv, subtotal, metodopago, fcompra, usuario, productos);
-        Compra compraGuardada = repository.save(compra);
-        for (CompraProducto producto : productos) {
-            producto.setCompra(compraGuardada); // Establece la compra en cada CompraProducto
-            compraProdRepository.save(producto); // Guarda cada CompraProducto en la base de datos
-        }
-        return compraGuardada;
-    }
+	    subtotal = Math.round(subtotal * 100.0) / 100.0;
+	    double igv = Math.round(subtotal * 0.18 * 100.0) / 100.0;
+	    double total = Math.round((subtotal + igv) * 100.0) / 100.0;
+	    Compra compra = new Compra(total, igv, subtotal, metodopago, fcompra, usuario, productos);
+	    Compra compraGuardada = repository.save(compra);
+	    for (CompraProducto producto : productos) {
+	        producto.setCompra(compraGuardada); // Establece la compra en cada CompraProducto
+	        compraProdRepository.save(producto); // Guarda cada CompraProducto en la base de datos
+	    }
+	    return compraGuardada;
+	}
 }
 

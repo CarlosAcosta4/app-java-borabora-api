@@ -2,8 +2,6 @@ package pe.BoraBora.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,13 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="productos")
@@ -54,15 +50,11 @@ public class Producto implements Serializable
 	@JoinColumn(name="categoria_id",nullable=false)
 	@JsonBackReference("productos-categorias")  
 	private Categoria categoria;	
-
-	@OneToMany(mappedBy = "producto")
-	@JsonManagedReference("productos-prodCarrito")  
-	private Collection<ProductoCarrito> carritoProductos = new ArrayList<>();
 	
 	public Producto() { }
 
 	public Producto(Integer id, String nombre, String descripcion, String marca, Double precio, Integer stock,
-			LocalDate fvencimiento, String imagen, Categoria categoria, Collection<ProductoCarrito> carritoProductos) {
+			LocalDate fvencimiento, String imagen, Categoria categoria) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -72,7 +64,6 @@ public class Producto implements Serializable
 		this.fvencimiento = fvencimiento;
 		this.imagen = imagen;
 		this.categoria = categoria;
-		this.carritoProductos = carritoProductos;
 	}
 
 	public Integer getId() {
@@ -145,14 +136,6 @@ public class Producto implements Serializable
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
-	}
-
-	public Collection<ProductoCarrito> getCarritoProductos() {
-		return carritoProductos;
-	}
-
-	public void setCarritoProductos(Collection<ProductoCarrito> carritoProductos) {
-		this.carritoProductos = carritoProductos;
 	}
 
 	public static long getSerialversionuid() {

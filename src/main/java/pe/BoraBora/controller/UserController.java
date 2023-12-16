@@ -89,10 +89,6 @@ public class UserController {
                 return new ResponseEntity<>(new ApiResponse("El correo electrónico no existe", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
             }
 
-            if (!userService.checkPassword(email, oldPass)) {
-                return new ResponseEntity<>(new ApiResponse("La contraseña actual es incorrecta", HttpStatus.UNAUTHORIZED), HttpStatus.UNAUTHORIZED);
-            }
-
             User updatedUser = userService.updatePassword(email, newPass);
 
             if (updatedUser != null) {

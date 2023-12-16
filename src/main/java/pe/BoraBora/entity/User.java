@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -34,9 +33,6 @@ public class User implements Serializable {
 	@Column()
 	private String contrasena ;
 	
-	@OneToOne(mappedBy = "user")
-	private Carrito carrito;
-	
 	public User() { }
 
 	public User(String email, String contrasena) {
@@ -46,7 +42,7 @@ public class User implements Serializable {
 	}
 
 	public User(Integer id, String nombres, String apellidos, Integer docIdentidad, Integer telefono, String email,
-			String contrasena, Carrito carrito) {
+			String contrasena) {
 		super();
 		this.id = id;
 		this.nombres = nombres;
@@ -55,7 +51,6 @@ public class User implements Serializable {
 		this.telefono = telefono;
 		this.email = email;
 		this.contrasena = contrasena;
-		this.carrito = carrito;
 	}
 
 	public Integer getId() {
@@ -116,13 +111,5 @@ public class User implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public Carrito getCarrito() {
-		return carrito;
-	}
-
-	public void setCarrito(Carrito carrito) {
-		this.carrito = carrito;
 	}
 }
