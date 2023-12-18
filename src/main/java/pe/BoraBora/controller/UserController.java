@@ -41,7 +41,7 @@ public class UserController {
                 PerfilResponse response = new PerfilResponse("Inicio de sesión correcto", HttpStatus.OK, user.getId(), user.getNombres(), user.getApellidos(), user.getDocIdentidad(), user.getTelefono(), user.getEmail());
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                PerfilResponse response = new PerfilResponse( "Inicio de sesión fallido. Verifica tus credenciales", HttpStatus.UNAUTHORIZED, null, null, null, null, null, null);
+                PerfilResponse response = new PerfilResponse( "Usuario y/o contraseña incorrecta", HttpStatus.UNAUTHORIZED, null, null, null, null, null, null);
                 return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception e) {
